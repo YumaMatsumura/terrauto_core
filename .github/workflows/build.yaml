@@ -1,0 +1,45 @@
+name: build and test
+on:
+  push:
+  pull_request:
+
+
+permissions:
+  contents: read
+
+jobs:
+  ros_ci:
+    name: ROS 2 CI (Humble)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-22.04
+        ros_distribution:
+          - humble
+        include:
+          - docker_image: ubuntu:jammy
+            ros_distribution: humble
+            ros_version: 2
+    container:
+      image: ${{ matrix.docker_image }}
+    steps:
+      - name: Prepare workspace
+        run: mkdir -p ros2_ws/src
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: ros2_ws/src
+
+      - name: Setup ROS 2
+        uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: ${{ matrix.ros_distribution }}
+
+      - name: Build & Test (all packages in workspace)
+        uses: ros-tooling/action-ros-ci@v0.4
+        with:
+          target-ros2-distro: ${{ matrix.ros_distribution }}
+          ros-workspace-directory: ros2_ws
