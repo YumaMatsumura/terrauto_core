@@ -26,12 +26,19 @@ jobs:
       image: ${{ matrix.docker_image }}
     steps:
       - name: Prepare workspace
-        run: mkdir -p ros2_ws/src
+        run: mkdir -p ros_ws/src
 
-      - name: Checkout repository
+      - name: Checkout repository (under test)
         uses: actions/checkout@v4
         with:
-          path: ros2_ws/src
+          path: ros_ws/src/${{ github.event.repository.name }}
+
+      - name: Checkout terrauto_common
+        uses: actions/checkout@v4
+        with:
+          repository: YumaMatsumura/terrauto_common
+          path: ros_ws/src/terrauto_common
+          ref: main
 
       - name: Setup ROS 2
         uses: ros-tooling/setup-ros@v0.7
@@ -42,4 +49,3 @@ jobs:
         uses: ros-tooling/action-ros-ci@v0.4
         with:
           target-ros2-distro: ${{ matrix.ros_distribution }}
-          ros-workspace-directory: ros2_ws
