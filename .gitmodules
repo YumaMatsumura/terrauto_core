@@ -1,0 +1,4 @@
+[submodule "thirdparty/cuPCL"]
+	path = thirdparty/cuPCL
+	url = https://github.com/NVIDIA-AI-IOT/cuPCL.git
+	branch = jp6.x
