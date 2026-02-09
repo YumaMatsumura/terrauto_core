@@ -1,0 +1,13 @@
+map_loader_node:
+  ros__parameters:
+    use_voxel_grid_filter: true
+    voxel_leaf_x: 0.1
+    voxel_leaf_y: 0.1
+    voxel_leaf_z: 0.1
+    translation_x: 0.0
+    translation_y: 0.0
+    translation_z: 0.0
+    rotation_x: 0.0
+    rotation_y: 0.0
+    rotation_z: 0.0
+    file_type: ply
