@@ -1,0 +1,29 @@
+ndt_scan_matcher_node:
+  ros__parameters:
+    publish_tf: true
+    min_map_points: 300
+    min_sensor_points: 100
+    ndt:
+      max_iterations: 35
+      resolution: 1.0
+      step_size: 0.1
+      transform_epsilon: 0.01
+    score:
+      threshold: 2.0
+      cutoff_ratio: 0.1
+    initil_pose:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      qx: 0.0
+      qy: 0.0
+      qz: 0.0
+      qw: 1.0
+    cov:
+      base:
+        xy: 0.25
+        z: 0.25
+        rpy: 0.0075
+      scale_max: 100.0
+    global_frame_id: map
+    base_frame_id: base_link
