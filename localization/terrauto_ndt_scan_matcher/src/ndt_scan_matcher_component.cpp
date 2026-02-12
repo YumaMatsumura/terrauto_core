@@ -140,7 +140,7 @@ NdtScanMatcher::NdtScanMatcher(const rclcpp::NodeOptions & options)
 
   // Publisher
   pub_pose_ = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>(
-    "ndt_pose", rclcpp::QoS(10).reliable().durability_volatile());
+    "output_pose", rclcpp::QoS(10).reliable().durability_volatile());
 
   // Callback Group
   rclcpp::CallbackGroup::SharedPtr pose_callback_group =
