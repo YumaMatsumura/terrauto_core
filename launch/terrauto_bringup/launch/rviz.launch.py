@@ -28,6 +28,7 @@ def generate_launch_description():
     theme = LaunchConfiguration("theme")
     rviz_config_file = LaunchConfiguration("rviz_config_file")
     qss_file = LaunchConfiguration("qss_file")
+    use_sim_time = LaunchConfiguration("use_sim_time")
 
     # Declare args
     declare_theme_cmd = DeclareLaunchArgument(
@@ -45,6 +46,11 @@ def generate_launch_description():
         "qss_file",
         default_value=qss_light_path,
         description="Full path to the QSS file (auto-set by theme by default)",
+    )
+    declare_use_sim_time_cmd = DeclareLaunchArgument(
+        "use_sim_time",
+        default_value="false",
+        description="Use simulation clock if true",
     )
 
     # Apply theme selection (override launch configurations)
@@ -76,6 +82,7 @@ def generate_launch_description():
         package="rviz2",
         executable="rviz2",
         arguments=["-d", rviz_config_file, "--stylesheet", qss_file],
+        parameters=[{"use_sim_time": use_sim_time}],
         output="screen",
     )
 
@@ -91,6 +98,7 @@ def generate_launch_description():
             declare_theme_cmd,
             declare_rviz_config_file_cmd,
             declare_qss_file_cmd,
+            declare_use_sim_time_cmd,
             set_light_theme_cmd,
             set_light_qss_cmd,
             set_dark_theme_cmd,

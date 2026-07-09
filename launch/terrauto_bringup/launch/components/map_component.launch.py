@@ -12,6 +12,7 @@ from launch.conditions import UnlessCondition
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import LoadComposableNodes
 from launch_ros.actions import Node
+from launch_ros.actions import SetParameter
 from launch_ros.descriptions import ComposableNode
 
 
@@ -24,6 +25,7 @@ def generate_launch_description():
     # LaunchConfigurations
     map_file = LaunchConfiguration("map_file")
     map_component_params_file = LaunchConfiguration("map_component_params_file")
+    use_sim_time = LaunchConfiguration("use_sim_time")
     use_composition = LaunchConfiguration("use_composition")
     use_multithread = LaunchConfiguration("use_multithread")
     use_intra_process = LaunchConfiguration("use_intra_process")
@@ -39,6 +41,11 @@ def generate_launch_description():
         "map_component_params_file",
         default_value=map_component_params_path,
         description="Full path to the ROS 2 parameters file for map component nodes",
+    )
+    declare_use_sim_time_cmd = DeclareLaunchArgument(
+        "use_sim_time",
+        default_value="false",
+        description="Use simulation clock if true",
     )
     declare_use_composition_cmd = DeclareLaunchArgument(
         "use_composition",
@@ -72,6 +79,7 @@ def generate_launch_description():
     load_composition_nodes = GroupAction(
         condition=IfCondition(use_composition),
         actions=[
+            SetParameter("use_sim_time", use_sim_time),
             Node(
                 name="terrauto_map_component_container",
                 package="rclcpp_components",
@@ -99,6 +107,7 @@ def generate_launch_description():
     load_nodes = GroupAction(
         condition=UnlessCondition(use_composition),
         actions=[
+            SetParameter("use_sim_time", use_sim_time),
             Node(
                 name="map_loader_node",
                 package="terrauto_map_loade",
@@ -116,6 +125,7 @@ def generate_launch_description():
         [
             declare_map_file_cmd,
             declare_map_component_params_file_cmd,
+            declare_use_sim_time_cmd,
             declare_use_composition_cmd,
             declare_use_multithread_cmd,
             declare_use_intra_process_cmd,

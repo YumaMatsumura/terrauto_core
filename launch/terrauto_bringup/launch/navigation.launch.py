@@ -41,6 +41,7 @@ def generate_launch_description():
     map_component_params_file = LaunchConfiguration("map_component_params_file")
     sensing_component_params_file = LaunchConfiguration("sensing_component_params_file")
     localization_component_params_file = LaunchConfiguration("localization_component_params_file")
+    use_sim_time = LaunchConfiguration("use_sim_time")
     use_composition = LaunchConfiguration("use_composition")
     use_multithread = LaunchConfiguration("use_multithread")
     use_intra_process = LaunchConfiguration("use_intra_process")
@@ -65,6 +66,11 @@ def generate_launch_description():
         "localization_component_params_file",
         default_value=localization_component_params_path,
         description="Full path to the ROS 2 parameters file for localization component nodes",
+    )
+    declare_use_sim_time_cmd = DeclareLaunchArgument(
+        "use_sim_time",
+        default_value="false",
+        description="Use simulation clock if true",
     )
     declare_use_composition_cmd = DeclareLaunchArgument(
         "use_composition",
@@ -107,6 +113,7 @@ def generate_launch_description():
                 launch_arguments={
                     "map_file": map_file,
                     "map_component_params_file": map_component_params_file,
+                    "use_sim_time": use_sim_time,
                     "use_composition": use_composition,
                     "use_multithread": use_multithread,
                     "use_intra_process": use_intra_process,
@@ -116,6 +123,7 @@ def generate_launch_description():
                 PythonLaunchDescriptionSource(sensing_component_launch_path),
                 launch_arguments={
                     "sensing_component_params_file": sensing_component_params_file,
+                    "use_sim_time": use_sim_time,
                     "use_composition": use_composition,
                     "use_multithread": use_multithread,
                     "use_intra_process": use_intra_process,
@@ -125,6 +133,7 @@ def generate_launch_description():
                 PythonLaunchDescriptionSource(localization_component_launch_path),
                 launch_arguments={
                     "localization_component_params_file": localization_component_params_file,
+                    "use_sim_time": use_sim_time,
                     "use_composition": use_composition,
                     "use_multithread": use_multithread,
                     "use_intra_process": use_intra_process,
@@ -139,6 +148,7 @@ def generate_launch_description():
             declare_map_component_params_file_cmd,
             declare_sensing_component_params_file_cmd,
             declare_localization_component_params_file_cmd,
+            declare_use_sim_time_cmd,
             declare_use_composition_cmd,
             declare_use_multithread_cmd,
             declare_use_intra_process_cmd,
