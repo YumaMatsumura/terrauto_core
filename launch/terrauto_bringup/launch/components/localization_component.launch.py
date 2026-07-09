@@ -26,6 +26,7 @@ def generate_launch_description():
     localization_component_params_file = LaunchConfiguration("localization_component_params_file")
     use_composition = LaunchConfiguration("use_composition")
     use_multithread = LaunchConfiguration("use_multithread")
+    use_intra_process = LaunchConfiguration("use_intra_process")
     container_executable = LaunchConfiguration("container_executable")
 
     # Declare args
@@ -43,6 +44,11 @@ def generate_launch_description():
         "use_multithread",
         default_value="False",
         description="Use MultiThreadedExecutor for component container (component_container_mt)",
+    )
+    declare_use_intra_process_cmd = DeclareLaunchArgument(
+        "use_intra_process",
+        default_value="True",
+        description="Use intre-process communication for composable nodes",
     )
 
     # Decide container executable
@@ -80,7 +86,7 @@ def generate_launch_description():
                         remappings=[
                             ("points", "/voxel_grid_filter/points"),
                         ],
-                        extra_arguments=[{"use_intra_process_comms": False}],
+                        extra_arguments=[{"use_intra_process_comms": use_intra_process}],
                     ),
                 ],
             ),
@@ -110,6 +116,7 @@ def generate_launch_description():
             declare_localization_component_params_file_cmd,
             declare_use_composition_cmd,
             declare_use_multithread_cmd,
+            declare_use_intra_process_cmd,
             set_container_executable_single,
             set_container_executable_multi,
             load_composition_nodes,
