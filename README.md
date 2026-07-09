@@ -8,8 +8,8 @@
 ## 開発環境
 
 - Jetson Orin Nano Super開発者キット
-- Jetpack6
-- ROS 2 Humble
+- Jetpack7
+- ROS 2 Jazzy
 
 ## ネットワークの設定
 
